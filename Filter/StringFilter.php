@@ -25,7 +25,7 @@ class StringFilter extends Filter
             return;
         }
 
-        $data['value'] = trim($data['value']);
+        $data['value'] = strtolower(trim($data['value']));
 
         if (strlen($data['value']) == 0) {
             return;
@@ -41,7 +41,7 @@ class StringFilter extends Filter
 
         // c.name > '1' => c.name OPERATOR :FIELDNAME
         $parameterName = $this->getNewParameterName($queryBuilder);
-        $this->applyWhere($queryBuilder, sprintf('%s.%s %s :%s', $alias, $field, $operator, $parameterName));
+        $this->applyWhere($queryBuilder, sprintf('lower(%s.%s) %s :%s', $alias, $field, $operator, $parameterName));
 
         if ($data['type'] == ChoiceType::TYPE_EQUAL) {
             $queryBuilder->setParameter($parameterName, $data['value']);
